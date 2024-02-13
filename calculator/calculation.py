@@ -1,9 +1,24 @@
+# Import imp modules
+from decimal import Decimal
+from typing import Callable
+from calculator.operations import add, subtract, multiply, divide
+
+# Definition of the Calculation class with type annotations for improved readability and safety
 class Calculation:
-    def __init__(self, a, b, operation):
+    # Constructor
+    def __init__(self, a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]):
         self.a = a
         self.b = b
-        self.operation = operation  # Store the operation function
+        self.operation = operation
+    
+    @staticmethod    
+    def create(a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]):
+        return Calculation(a, b, operation)
 
-    def get_result(self):
-        # Call the stored operation with a and b
+    def perform(self) -> Decimal:
+        """Perform the stored calculation and return the result."""
         return self.operation(self.a, self.b)
+
+    def __repr__(self):
+        """Return a simplified string representation of the calculation."""
+        return f"Calculation({self.a}, {self.b}, {self.operation.__name__})"
